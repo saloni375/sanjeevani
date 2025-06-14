@@ -22,18 +22,53 @@ const Navbar = () => {
   }, [activeLink]);
 
   const linkStyle = (link) => ({
-    color: activeLink === link ? '#f8f9fa' : '#ddd', // slight white on active, light gray on inactive
-    transition: 'color 0.3s ease',
+    color: activeLink === link ? '#f8f9fa' : '#ddd',
+    transition: 'all 0.3s ease',
     cursor: 'pointer',
-    paddingBottom: '5px'
+    paddingBottom: '5px',
+    display: 'inline-block',
+    transform: activeLink === link ? 'scale(1.1)' : 'scale(1)', // pop effect on active
   });
 
+  // const hoverStyle = {
+  //   transition: 'all 0.3s ease',
+  //   display: 'inline-block'
+  // };
+
+  const handleNavClick = (link) => {
+  setActiveLink(link);
+  const section = document.getElementById(link.toLowerCase()); // targets id="home", "about", "contact"
+  if (section) {
+    section.scrollIntoView({ behavior: 'smooth' }); // smooth scrolling
+  }
+};
+
+
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark px-4 position-relative">
-      <a className="navbar-brand fw-bold text-white" href="#">ComingSoon</a>
+    <nav
+      className="navbar navbar-expand-lg navbar-dark px-4 position-fixed w-100"
+      style={{
+        top: 0,
+        left: 0,
+        zIndex: 999
+      }}
+    >
+   {    // eslint-disable-next-line 
+   }
+<a 
+  className="navbar-brand fw-bold text-white" 
+  href="#Home" 
+  onClick={(e) => {
+    e.preventDefault();
+    handleNavClick('Home');
+  }}
+>
+  SanjeevaniCare
+</a>
+ 
       <div className="collapse navbar-collapse justify-content-end position-relative">
         <ul className="navbar-nav position-relative">
-          <div 
+          <div
             ref={underlineRef}
             style={{
               position: 'absolute',
@@ -44,33 +79,33 @@ const Navbar = () => {
               transition: 'all 0.3s ease'
             }}
           />
-          <li className="nav-item mx-2" ref={homeRef}>
-            <span
-              className="nav-link"
-              style={linkStyle('Home')}
-              onClick={() => setActiveLink('Home')}
+
+          {['Home', 'About', 'Contact'].map((link) => (
+            <li
+              key={link}
+              className="nav-item mx-2"
+              ref={link === 'Home' ? homeRef : link === 'About' ? aboutRef : contactRef}
             >
-              Home
-            </span>
-          </li>
-          <li className="nav-item mx-2" ref={aboutRef}>
-            <span
-              className="nav-link"
-              style={linkStyle('About')}
-              onClick={() => setActiveLink('About')}
-            >
-              About
-            </span>
-          </li>
-          <li className="nav-item mx-2" ref={contactRef}>
-            <span
-              className="nav-link"
-              style={linkStyle('Contact')}
-              onClick={() => setActiveLink('Contact')}
-            >
-              Contact
-            </span>
-          </li>
+              <span
+                className="nav-link"
+                style={linkStyle(link)}
+                onMouseEnter={(e) => {
+                  e.target.style.transform = 'scale(1.1)';
+                  e.target.style.color = '#f8f9fa';
+                }}
+                onMouseLeave={(e) => {
+                  if (activeLink !== link) {
+                    e.target.style.transform = 'scale(1)';
+                    e.target.style.color = '#ddd';
+                  }
+                }}
+                onClick={() => handleNavClick(link)}
+
+              >
+                {link}
+              </span>
+            </li>
+          ))}
         </ul>
       </div>
     </nav>

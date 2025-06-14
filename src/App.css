@@ -1,9 +1,22 @@
 .App {
-  height: 100vh;
-  background: url('background.png') no-repeat center center/cover;
-  background-attachment: fixed; /* this makes the background fixed */
+  background: url('background.jpg') no-repeat center center fixed;
+  background-size: cover;
+   margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+   
 }
 
 .main-content {
   padding-top: 100px;
 }
+
+/* body {
+  background: url('background.jpg') no-repeat center center fixed;
+  background-size: cover;
+   margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+} */
+
+
